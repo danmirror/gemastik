@@ -52,9 +52,10 @@ void loop(){
   soil_val= analogRead(soil_pin);  
   int soil_val2 = map(soil_val,1023,0,0,100);
   
-  if (soil_val <= 6 )
+  if (soil_val2 <= 6 )
   {
     digitalWrite(relay,LOW);  // Hidup 15 detik
+    Serial.println("nyala");
   }
   else { 
     digitalWrite(relay,HIGH) ;
@@ -62,6 +63,7 @@ void loop(){
 //==========================================pH_Tanah=================================
   ph_val = analogRead(analogInPin);
   ph_out = (-0.0693*ph_val)+7.3855;
+  ph_out = 7.5;
 //  Serial.print(ph_val);/
 //==========================================Wadah pupuk=================================   
   if (ph_out >= 5.5 ) 
@@ -100,7 +102,7 @@ void loop(){
   Serial.print(celcius_1);
   Serial.print(",");
 
-  Serial.print(soil_val);
+  Serial.print(soil_val2);
   Serial.print(",");
 
   Serial.println(ph_out);

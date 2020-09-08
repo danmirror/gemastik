@@ -1,7 +1,7 @@
 #--------------------------
 #   author = Danu andrean
-#   create = mey,19
-#   title  = object tracking
+#   create = sept, 2020
+#   title  = gemastik
 
 #---------------------------------------
 #   done
@@ -12,22 +12,34 @@ import cv2
 import numpy as np
 import requests
 
+
+# Python3 code to demonstrate  
+# attributes of now()  
+    
+# importing datetime module for now()  
+import datetime  
+    
+
+
+
+
+
 import serial
 ser = serial.Serial('/dev/ttyACM0', 115200)
 
 def callback(x):
     pass
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 cv2.namedWindow('image',cv2.WINDOW_NORMAL)
 
 
-ilowH = 131
-ilowS = 104
-ilowV = 64
-ihighH = 185
-ihighS = 255
-ihighV = 163
+ilowH = 0
+ilowS = 137
+ilowV = 45
+ihighH = 236
+ihighS = 238
+ihighV = 119
 
 frame_w = 440
 frame_h = 280
@@ -57,17 +69,19 @@ def send(humadity,temp,soil,ph,status):
 
     data = "data1="+humadity+"&data2="+temp+"&data3="+soil+"&data4="+ph+"&data5="+status
 
-    url = "http://127.0.0.1/connect.php?"+data
+    url = "http://127.0.0.1/gemastik/connect.php?"+data
 
     payload = {}
     headers = {}
 
-    response = requests.request("POST", url, headers=headers)
+    response = requests.request("GET", url, headers=headers)
 
     print(response.text.encode('utf8'))
 
 while True:
-    
+    # using now() to get current time  
+    current_time = datetime.datetime.now()  
+
     val_send = '0'
     ret, frame=cap.read()
     frame = cv2.flip(frame,1)
@@ -126,8 +140,14 @@ while True:
     st =inputFile.decode()
     st = st[:-2]
     list_ = st.split (",")
-    # send(list_[0],list_[1],list_[2],list_[4],val_send)
-    print(list_)
+      
+    
+    print("Second : ", end = "")  
+    print(current_time.second)  
+    if(current_time.second==1):
+        # send(list_[0],list_[1],list_[2],list_[3],val_send)
+    # print(list_[0])
+        print(list_)
     print(val_send)
     cv2.imshow("mask",mask)
     cv2.imshow("cam",frame)

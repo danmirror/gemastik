@@ -24,8 +24,7 @@ int ph_val = 0;
 float ph_out = 0.0; 
 int relay = 3;
 
-int soil_val2 = map(soil_val,1023,0,0,100);
-  
+
 void setup() 
 { 
   uint32_t baud =115200;
@@ -51,6 +50,8 @@ void loop(){
  
 //==================================SOIL_MOISTURE===================================  
   soil_val= analogRead(soil_pin);  
+  int soil_val2 = map(soil_val,1023,0,0,100);
+  
   if (soil_val <= 6 )
   {
     digitalWrite(relay,LOW);  // Hidup 15 detik
@@ -86,7 +87,7 @@ void loop(){
 
   lcd.setCursor(0,1);
   lcd.print("Soil:");
-  lcd.print(soil_val);
+  lcd.print(soil_val2);
   lcd.setCursor(9,1);
   lcd.print("Ph :");
   lcd.print(ph_out);
